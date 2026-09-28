@@ -1,0 +1,11 @@
+{
+  "id": "ai-travel-planner",
+  "name": "AI Travel Planner",
+  "version": "0.1.0",
+  "description": "Plan a destination, compare stays, map attractions, and shape an AI-style itinerary with transparent source notes.",
+  "entry": "index.jsx",
+  "icon": "icon.png",
+  "offline_capable": true,
+  "permissions": {},
+  "source_files": []
+}
