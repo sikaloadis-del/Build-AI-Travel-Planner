@@ -1,0 +1,12 @@
+import React, { useMemo, useState } from 'react'
+import { Chat, Check } from '@openai/apps-sdk-ui/components/Icon'
+import { EmptyState } from './Chrome.jsx'
+
+export function AssistantPanel({ services, trip, applyProposal }) {
+  const [messages,setMessages]=useState([{ role:'assistant', text:'I am trip-aware, not a generic chatbot. Save or generate a trip and ask about food, weather changes, children, free time, or itinerary edits.' }])
+  const [draft,setDraft]=useState('It is going to rain tomorrow. Change the plan.')
+  const context=useMemo(()=> trip ? services.trip.createTripContext(trip,{ accommodation: trip.bundle?.accommodation, transport: trip.transport, itinerary: trip.itinerary, weather: trip.weather, savedPlaces: trip.bundle?.attractions }) : null,[services,trip])
+  function send(){ if(!draft.trim()) return; const answer=services.ai.answer(context,draft); setMessages(m=>[...m,{role:'user',text:draft},{role:'assistant',text:answer.text,proposal:answer.proposal}]); setDraft('') }
+  if(!trip) return <EmptyState title="Assistant needs trip context" body="Generate or open a trip first. The assistant will then receive destination, dates, travellers, accommodation, weather, itinerary and preferences."/>
+  return <section className="tp-two"><div className="tp-panel tp-assistant"><div><h2>AI Travel Assistant</h2><p className="tp-muted">Context: {trip.destination?.formatted}. This MVP uses a structured local AIService scaffold until an OpenAI key is configured server-side.</p><div className="tp-chatlog">{messages.map((m,i)=><div key={i} className={`tp-msg ${m.role==='user'?'user':''}`}><strong>{m.role==='user'?'You':'Assistant'}</strong><p>{m.text}</p>{m.proposal && <div className="tp-card"><h3>Proposed changes preview</h3>{m.proposal.changes.map(c=><p key={c}>• {c}</p>)}<p className="tp-source">Reason: {m.proposal.reason}</p><button className="tp-btn ghost" onClick={()=>applyProposal?.(m.proposal)}><Check size={14}/> Apply changes</button></div>}</div>)}</div></div><div className="tp-field"><textarea className="tp-textarea" value={draft} onChange={e=>setDraft(e.target.value)} placeholder="Ask about this trip…"/><button className="tp-btn primary" onClick={send}><Chat size={16}/> Ask assistant</button></div></div><aside className="tp-panel"><h2>Context sent to AIService</h2><pre style={{whiteSpace:'pre-wrap',fontSize:12,overflow:'auto',maxHeight:520}}>{JSON.stringify(context,null,2)}</pre></aside></section>
+}

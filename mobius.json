@@ -1,11 +1,24 @@
 {
   "id": "ai-travel-planner",
   "name": "AI Travel Planner",
-  "version": "0.1.0",
-  "description": "Plan a destination, compare stays, map attractions, and shape an AI-style itinerary with transparent source notes.",
+  "version": "0.2.0",
+  "description": "Dynamic AI travel platform foundation with provider-backed destination research, trip planning, source transparency, and modular service architecture.",
   "entry": "index.jsx",
   "icon": "icon.png",
-  "offline_capable": true,
+  "offline_capable": false,
   "permissions": {},
-  "source_files": []
+  "source_files": [
+    "theme.js",
+    "config.js",
+    "domain.js",
+    "gateway.js",
+    "storage.js",
+    "services.js",
+    "ui/Chrome.jsx",
+    "ui/DestinationSearch.jsx",
+    "ui/ExploreGuide.jsx",
+    "ui/PlanTrip.jsx",
+    "ui/MyTrips.jsx",
+    "ui/AssistantPanel.jsx"
+  ]
 }
