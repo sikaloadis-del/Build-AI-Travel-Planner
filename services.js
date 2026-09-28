@@ -27,7 +27,7 @@ export class CountryInfoService {
   constructor(gateway) { this.gateway = gateway }
   async getByCountryCode(code) {
     if (!code) return null
-    const url = `${'https://' + 'restcountries.com'}/v3.1/alpha/${encodeURIComponent(code)}`
+    const url = `${'https://' + 'restcountries.com'}/v3.1/alpha/${encodeURIComponent(code)}/`
     const json = await this.gateway.proxyJson(url, { cacheKey: `country:${code}`, policy: CACHE_POLICIES.countryInfo })
     const c = Array.isArray(json) ? json[0] : null
     if (!c) return null
