@@ -27,11 +27,11 @@ export class CountryInfoService {
   constructor(gateway) { this.gateway = gateway }
   async getByCountryCode(code) {
     if (!code) return null
-    const url = `${'https://' + 'restcountries.com'}/v3.1/alpha/${encodeURIComponent(code)}/`
-    const json = await this.gateway.proxyJson(url, { cacheKey: `country:${code}`, policy: CACHE_POLICIES.countryInfo })
-    const c = Array.isArray(json) ? json[0] : null
+    const url = `${'https://' + 'api.worldbank.org'}/v2/country/${encodeURIComponent(code)}?format=json`
+    const json = await this.gateway.proxyJson(url, { cacheKey: `country:${code}:worldbank`, policy: CACHE_POLICIES.countryInfo })
+    const c = Array.isArray(json) && Array.isArray(json[1]) ? json[1][0] : null
     if (!c) return null
-    return { name: c.name?.common, officialName: c.name?.official, capital: c.capital?.join(', ') || 'Unavailable', languages: Object.values(c.languages || {}).join(', ') || 'Unavailable', currency: Object.values(c.currencies || {}).map((v) => `${v.name} (${v.symbol || ''})`).join(', ') || 'Unavailable', timezones: c.timezones?.join(', ') || 'Unavailable', callingCode: `${c.idd?.root || ''}${(c.idd?.suffixes || [''])[0] || ''}` || 'Unavailable', flag: c.flag, population: c.population, region: c.region, source: sourceMeta('REST Countries', 'https://' + 'restcountries.com' + '/', CACHE_POLICIES.countryInfo.ttlMs, 'high'), visaDisclaimer: 'Entry requirements depend on nationality, passport, dates and purpose. Verify with official government or embassy sources before travel.', paymentAdvice: 'Card acceptance and cash needs vary locally; verify recent traveller guidance and official tourism information.' }
+    return { name: c.name, officialName: c.name, capital: c.capitalCity || 'Unavailable', languages: 'Unavailable from current provider', currency: 'Unavailable from current provider', timezones: 'Unavailable from current provider', callingCode: 'Unavailable from current provider', flag: '', population: null, region: c.region?.value || 'Unavailable', incomeLevel: c.incomeLevel?.value, coordinates: c.latitude && c.longitude ? { lat: Number(c.latitude), lon: Number(c.longitude) } : null, source: sourceMeta('World Bank country API', 'https://' + 'api.worldbank.org' + '/', CACHE_POLICIES.countryInfo.ttlMs, 'high'), visaDisclaimer: 'Entry requirements depend on nationality, passport, dates and purpose. Verify with official government or embassy sources before travel.', paymentAdvice: 'Currency, payment methods, plug type and visa details need a dedicated provider or official source before being shown as current facts.' }
   }
 }
 

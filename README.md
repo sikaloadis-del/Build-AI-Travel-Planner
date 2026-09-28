@@ -18,7 +18,7 @@ This package runs as a Möbius mini-app, so the live code is a React app inside 
 Current real/keyless providers:
 
 - `LocationSearchService` → OpenStreetMap Nominatim
-- `CountryInfoService` → REST Countries
+- `CountryInfoService` → World Bank country API (limited stable metadata)
 - `PlacesService`, `AccommodationService`, `RestaurantService` → Overpass / OpenStreetMap tags
 - `WeatherService` → Open-Meteo forecast when dates are inside the reliable forecast window
 
