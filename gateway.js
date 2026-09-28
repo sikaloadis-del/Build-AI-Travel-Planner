@@ -2,9 +2,11 @@ import { CACHE_POLICIES } from './config.js'
 
 export class DataGateway {
   constructor({ token, storage }) { this.token = token; this.storage = storage; this.inflight = new Map(); this.logs = [] }
+  safeCacheKey(key) { return `cache/${encodeURIComponent(key).replaceAll('%', '_')}.json` }
   log(event) { this.logs = [{ ...event, at: new Date().toISOString() }, ...this.logs].slice(0, 80); console.info('[travel]', event) }
   async proxyJson(url, { cacheKey, policy = CACHE_POLICIES.cityInfo, headers = {} } = {}) {
-    const key = cacheKey || `cache:${url}`
+    const rawKey = cacheKey || `cache:${url}`
+    const key = this.safeCacheKey(rawKey)
     const cached = await this.readCache(key)
     if (cached) return { ...cached.value, _cache: { hit: true, retrievedAt: cached.retrievedAt, expiresAt: cached.expiresAt } }
     if (this.inflight.has(key)) return this.inflight.get(key)
