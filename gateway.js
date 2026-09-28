@@ -8,11 +8,11 @@ export class DataGateway {
     const rawKey = cacheKey || `cache:${url}`
     const key = this.safeCacheKey(rawKey)
     const cached = await this.readCache(key)
-    if (cached) return { ...cached.value, _cache: { hit: true, retrievedAt: cached.retrievedAt, expiresAt: cached.expiresAt } }
+    if (cached) return cached.value
     if (this.inflight.has(key)) return this.inflight.get(key)
     const promise = this.fetchJson(url, headers).then(async (value) => {
       await this.writeCache(key, value, policy)
-      return { ...value, _cache: { hit: false } }
+      return value
     }).finally(() => this.inflight.delete(key))
     this.inflight.set(key, promise)
     return promise

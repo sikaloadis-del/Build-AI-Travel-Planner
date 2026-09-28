@@ -25,6 +25,30 @@ export class LocationSearchService {
 
 export class CountryInfoService {
   constructor(gateway) { this.gateway = gateway }
+  async allCountries() {
+    const url = `${'https://' + 'api.worldbank.org'}/v2/country?format=json&per_page=400`
+    const json = await this.gateway.proxyJson(url, { cacheKey: 'countries:worldbank:all', policy: CACHE_POLICIES.countryInfo })
+    const rows = Array.isArray(json) && Array.isArray(json[1]) ? json[1] : []
+    return rows
+      .filter((country) => country.id && country.iso2Code && country.region?.id !== 'NA' && country.name)
+      .map((country) => ({
+        code: country.iso2Code.toUpperCase(),
+        id: country.id,
+        name: country.name,
+        capital: country.capitalCity || '',
+        region: country.region?.value || '',
+        source: sourceMeta('World Bank country API', 'https://' + 'api.worldbank.org' + '/', CACHE_POLICIES.countryInfo.ttlMs, 'high'),
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }
+  async searchCountries(query) {
+    const term = String(query || '').trim().toLowerCase()
+    if (term.length < 2) return []
+    const countries = await this.allCountries()
+    return countries
+      .filter((country) => country.name.toLowerCase().includes(term) || country.code.toLowerCase() === term)
+      .slice(0, 12)
+  }
   async getByCountryCode(code) {
     if (!code) return null
     const url = `${'https://' + 'api.worldbank.org'}/v2/country/${encodeURIComponent(code)}?format=json`
