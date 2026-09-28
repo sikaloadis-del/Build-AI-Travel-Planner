@@ -1,0 +1,24 @@
+{
+  "name": "ai-travel-planner",
+  "version": "0.2.0",
+  "private": false,
+  "type": "module",
+  "description": "Dynamic AI-powered travel planning web app foundation with provider-backed destination research and trip planning.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "express": "latest"
+  },
+  "devDependencies": {}
+}

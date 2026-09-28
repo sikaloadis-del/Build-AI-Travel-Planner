@@ -19,6 +19,7 @@
     "ui/ExploreGuide.jsx",
     "ui/PlanTrip.jsx",
     "ui/MyTrips.jsx",
-    "ui/AssistantPanel.jsx"
+    "ui/AssistantPanel.jsx",
+    "src/icons.jsx"
   ]
 }

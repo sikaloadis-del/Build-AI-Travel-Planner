@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Search } from '@openai/apps-sdk-ui/components/Icon'
+import { Search } from '../src/icons.jsx'
 
 export function DestinationSearch({ services, onSelect, recent = [], label = 'Destination', countryCode = '' }) {
   const [query, setQuery] = useState('')

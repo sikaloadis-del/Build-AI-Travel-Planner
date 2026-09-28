@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { Chat, Check } from '@openai/apps-sdk-ui/components/Icon'
+import { Chat, Check } from '../src/icons.jsx'
 import { EmptyState } from './Chrome.jsx'
 
 export function AssistantPanel({ services, trip, applyProposal }) {

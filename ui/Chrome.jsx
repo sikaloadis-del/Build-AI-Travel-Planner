@@ -1,5 +1,5 @@
 import React from 'react'
-import { Brain, Calendar, GlobeRealTimeSearch, Heart, Home, Maps, Plane, Search, User } from '@openai/apps-sdk-ui/components/Icon'
+import { Brain, Calendar, GlobeRealTimeSearch, Heart, Home, Maps, Plane, Search, User } from '../src/icons.jsx'
 
 export function AppChrome({ view, setView, children }) {
   const nav = [

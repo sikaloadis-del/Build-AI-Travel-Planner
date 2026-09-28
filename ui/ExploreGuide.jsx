@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Globe, Heart, MapPin, Star } from '@openai/apps-sdk-ui/components/Icon'
+import { Globe, Heart, MapPin, Star } from '../src/icons.jsx'
 import { CountryCitySelector, DestinationSearch } from './DestinationSearch.jsx'
 import { EmptyState, ErrorNotice, LoadingCards, PinMap, ProviderBadge, SectionHeader, SourceLine } from './Chrome.jsx'
 import { loadDestinationBundle } from '../services.js'

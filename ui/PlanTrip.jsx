@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Calendar, Check, Lock, Trash } from '@openai/apps-sdk-ui/components/Icon'
+import { Calendar, Check, Lock, Trash } from '../src/icons.jsx'
 import { DestinationSearch } from './DestinationSearch.jsx'
 import { EmptyState, Money, PinMap, SectionHeader, SourceLine } from './Chrome.jsx'
 import { compactId, estimateBudget } from '../domain.js'

@@ -11,6 +11,37 @@ The app has two primary workflows:
 
 The core product principle is that the app must not be a static travel website. Destination-specific facts are retrieved through provider services or shown as unavailable/pending when a provider is not configured.
 
+
+## Running on Railway
+
+This repository is now a recognizable Node/React project for Railway. Railway can detect `package.json`, run `npm install`, run the Vite build, and start the Express server.
+
+Recommended Railway settings:
+
+- **Build command:** `npm run build`
+- **Start command:** `npm start`
+- **Node version:** Node 20+
+
+The Express server serves the built React app from `dist/` and exposes `/api/proxy?url=...` so the browser app can call keyless public providers without CORS failures. Private API keys should still be added only to server-side environment variables when real credentialed providers are implemented.
+
+Local standalone commands:
+
+```bash
+npm install
+npm run build
+npm start
+```
+
+Development mode:
+
+```bash
+npm run dev
+```
+
+## Möbius mini-app compatibility
+
+The original Möbius entry (`index.jsx` plus `mobius.json`) is preserved. The same React app can still run inside Möbius, while `src/main.jsx` provides the standalone browser bootstrap for Railway.
+
 ## Current implementation in Möbius
 
 This package runs as a Möbius mini-app, so the live code is a React app inside an opaque iframe. Mini-apps cannot run their own Node/Next server process inside the app package. The rebuild therefore establishes the **same boundaries a backend would expose** inside modular services, and uses the Möbius `/api/proxy` for keyless public providers.
